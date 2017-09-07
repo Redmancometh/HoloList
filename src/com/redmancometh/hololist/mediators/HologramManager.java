@@ -1,12 +1,15 @@
 package com.redmancometh.hololist.mediators;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.redmancometh.hololist.ExampleRankedHologram;
 import com.redmancometh.hololist.HoloList;
 import com.redmancometh.hololist.RankedHologram;
+import com.redmancometh.hololist.config.HoloListConfig;
 import com.redmancometh.hololist.tasks.PlayerExaminerTask;
 
 import lombok.Data;
@@ -14,23 +17,35 @@ import lombok.Data;
 @Data
 public class HologramManager implements Iterable<RankedHologram>
 {
-    private Map<String, RankedHologram> holoMap;
+    private Multimap<String, RankedHologram> holoMap = HashMultimap.create();
     private PlayerExaminerTask task;
 
     public void init()
     {
+        registerClassTypes();
         task = new PlayerExaminerTask();
-        task.runTaskTimer(HoloList.instance(), 20, HoloList.config().getHoloCheckRate());
+        HoloListConfig cfg = HoloList.config();
+        task.runTaskTimer(HoloList.instance(), 20, cfg.getHoloCheckRate());
+        cfg.getHolograms().forEach((holo) ->
+        {
+            RankedHologram hologram = HoloList.factory().buildHoloList(holo);
+            holoMap.put(holo.getName(), hologram);
+        });
     }
 
-    public void addHologram(RankedHologram h)
+    public void registerClassTypes()
     {
-        holoMap.put(h.getName(), h);
+        HoloList.factory().addHologramType("exampleranked", ExampleRankedHologram.class);
+    }
+
+    public void addHologram(String name, RankedHologram h)
+    {
+        holoMap.put(name, h);
     }
 
     public void removeHologram(String name)
     {
-        holoMap.remove(name);
+        holoMap.removeAll(name);
     }
 
     public Stream<RankedHologram> stream()

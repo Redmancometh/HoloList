@@ -18,7 +18,6 @@ public abstract class RankedHologram<T>
 {
     private Location loc;
     private int length;
-    private String name;
     private Hook<T> dataHook;
     //Final so it will be excluded from @AllArgsConstructor
     private Map<UUID, Hologram> viewers;
@@ -27,14 +26,17 @@ public abstract class RankedHologram<T>
      * 
      * @param loc The location the hologram will be located at
      * @param pageLength How many items per page
-     * @param name The "pretty name" of this hologram
      * @param dataHook The data hook that fetches the rank, caches it, etc.
+     * 
+     * ALWAYS PROVIDE THE DATA HOOK IN THE derivative class's superconstructor call!
+     * The implementation *cannot* have any other argument.
+     * 
+     * Any implementation must always have one constructor of Class(Location loc, int pageLength) in that order.
      */
-    public RankedHologram(Location loc, int pageLength, String name, Hook<T> dataHook)
+    public RankedHologram(Location loc, int pageLength, Hook<T> dataHook)
     {
         this.loc = loc;
         this.length = pageLength;
-        this.name = name;
         this.dataHook = dataHook;
     }
 
@@ -70,10 +72,5 @@ public abstract class RankedHologram<T>
     {
         return viewers.containsKey(uuid);
     }
-
-    /**
-     * Update the board using the cache. Will never fetch from db.
-     */
-    public abstract void updateBoard();
 
 }

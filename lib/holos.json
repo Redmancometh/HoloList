@@ -4,5 +4,17 @@
     // This is the rate at which the hide/show based on distance checks are performed
     "holo-check-rate": 5,
     // This is the maximum distance^2 the hologram is visible from
-    "holo-destroy-distance": 80 
+    "holo-destroy-distance": 80, 
+    "holograms":  [
+        {
+            "name": "exampleranked",
+            "loc": {
+                "world": "world",
+                "x": 5,
+                "y": 70,
+                "z": 8
+            },
+            "page-length": 5
+        }
+    ]
 }

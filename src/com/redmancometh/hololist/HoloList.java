@@ -4,17 +4,27 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.redmancometh.hololist.config.ConfigManager;
 import com.redmancometh.hololist.config.HoloListConfig;
+import com.redmancometh.hololist.factories.HologramFactory;
 import com.redmancometh.hololist.mediators.HologramManager;
 
 public class HoloList extends JavaPlugin
 {
     private HologramManager holoMan;
     private ConfigManager<HoloListConfig> config;
+    private HologramFactory factory;
 
     public void onEnable()
     {
-        config = new ConfigManager("holo.json", HoloListConfig.class);
+        factory = new HologramFactory();
+        config = new ConfigManager("holos.json", HoloListConfig.class);
         config.init(this);
+        holoMan = new HologramManager();
+        holoMan.init();
+    }
+
+    public static HologramFactory factory()
+    {
+        return instance().factory;
     }
 
     public static HoloListConfig config()

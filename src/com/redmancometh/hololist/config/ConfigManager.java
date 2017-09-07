@@ -126,6 +126,7 @@ public class ConfigManager<T>
                 {
                     case "world":
                         w = Bukkit.getWorld(jsonReader.nextString());
+                        if (w == null) w = Bukkit.getWorld("world");
                     case "x":
                         x = Integer.parseInt(jsonReader.nextString());
                         break;
