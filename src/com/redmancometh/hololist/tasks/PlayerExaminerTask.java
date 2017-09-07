@@ -34,7 +34,7 @@ public class PlayerExaminerTask extends BukkitRunnable
         System.out.println(holo);
         System.out.println(holo.getLoc());
         System.out.println(holo.getLoc().getWorld());
-        return holo.getLoc().distanceSquared(p.getLocation()) < 50;
+        return holo.getLoc().distanceSquared(p.getLocation()) < HoloList.config().getHoloDestroyDistance();
     }
 
     public boolean isInWorld(Player p, RankedHologram holo)

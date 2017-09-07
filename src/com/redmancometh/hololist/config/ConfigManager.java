@@ -118,14 +118,16 @@ public class ConfigManager<T>
         public Location read(JsonReader jsonReader) throws IOException
         {
             int x = 0, y = 0, z = 0;
-            World w = null;
+            World w = Bukkit.getWorld("world");
             jsonReader.beginObject();
             while (jsonReader.hasNext())
             {
                 switch (jsonReader.nextName())
                 {
                     case "world":
+                        System.out.println("WORLD");
                         w = Bukkit.getWorld(jsonReader.nextString());
+                        System.out.println(w == null);
                         if (w == null) w = Bukkit.getWorld("world");
                     case "x":
                         x = Integer.parseInt(jsonReader.nextString());

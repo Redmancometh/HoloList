@@ -1,3 +1,4 @@
 name: HoloList
 main: com.redmancometh.hololist.HoloList
 version: 1.0
+load: POSTWORLD

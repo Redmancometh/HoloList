@@ -1,5 +1,6 @@
 package com.redmancometh.hololist;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.redmancometh.hololist.config.ConfigManager;
@@ -15,11 +16,14 @@ public class HoloList extends JavaPlugin
 
     public void onEnable()
     {
-        factory = new HologramFactory();
-        config = new ConfigManager("holos.json", HoloListConfig.class);
-        config.init(this);
-        holoMan = new HologramManager();
-        holoMan.init();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () ->
+        {
+            factory = new HologramFactory();
+            config = new ConfigManager("holos.json", HoloListConfig.class);
+            config.init(this);
+            holoMan = new HologramManager();
+            holoMan.init();
+        }, 40);
     }
 
     public static HologramFactory factory()

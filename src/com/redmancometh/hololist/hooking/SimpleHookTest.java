@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class SimpleHookTest extends Hook<String>
 {
-    private List<String> cache;
+    private List<String> cache = new ArrayList();
 
     public SimpleHookTest()
     {

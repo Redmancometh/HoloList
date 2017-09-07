@@ -1,14 +1,17 @@
 package com.redmancometh.hololist;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.VisibilityManager;
+import com.redmancometh.hololist.config.HoloListConfig;
 import com.redmancometh.hololist.hooking.Hook;
 
 import lombok.Data;
@@ -38,6 +41,13 @@ public abstract class RankedHologram<T>
         this.loc = loc;
         this.length = pageLength;
         this.dataHook = dataHook;
+        viewers = new HashMap();
+    }
+
+    public void scheduleCacheFetch()
+    {
+        HoloListConfig cfg = HoloList.config();
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(HoloList.instance(), () -> update(), cfg.getHoloUpdateRate(), cfg.getHoloUpdateRate());
     }
 
     public void update()
@@ -59,6 +69,10 @@ public abstract class RankedHologram<T>
         visiblility.setVisibleByDefault(false);
         visiblility.showTo(p);
         viewers.put(p.getUniqueId(), h);
+        this.dataHook.getCache().forEach((item) ->
+        {
+            h.appendTextLine(item.toString());
+        });
     }
 
     public void removeViewer(UUID uuid)
@@ -66,6 +80,7 @@ public abstract class RankedHologram<T>
         Hologram h = viewers.get(uuid);
         if (h == null) throw new IllegalStateException("removeViewer was called on an");
         h.delete();
+        viewers.remove(uuid);
     }
 
     public boolean isViewing(UUID uuid)

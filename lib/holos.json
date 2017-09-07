@@ -9,7 +9,6 @@
         {
             "name": "exampleranked",
             "loc": {
-                "world": "world",
                 "x": 5,
                 "y": 70,
                 "z": 8

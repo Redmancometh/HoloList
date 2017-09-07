@@ -17,8 +17,6 @@ public class HologramFactory
 
     public void addHologramType(String name, Class<? extends RankedHologram> type)
     {
-        for (int x = 0; x < 50; x++)
-            System.out.println("ADDING: " + name + "\n" + type);
         this.classMap.put(name, type);
         Constructor construct;
         try
@@ -38,8 +36,6 @@ public class HologramFactory
     {
         try
         {
-            for (int x = 0; x < 50; x++)
-                System.out.println("GETTING FOR: " + entry.getName());
             RankedHologram holo = (RankedHologram) constructorMap.get(entry.getName()).newInstance(entry.getLoc(), entry.getPageLength());
             holo.setLoc(entry.getLoc());
             return holo;
