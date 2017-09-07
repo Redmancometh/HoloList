@@ -1,6 +1,5 @@
 package com.redmancometh.hololist;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,11 +11,9 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.VisibilityManager;
 import com.redmancometh.hololist.hooking.Hook;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public abstract class RankedHologram<T>
 {
     private Location loc;
@@ -24,13 +21,32 @@ public abstract class RankedHologram<T>
     private String name;
     private Hook<T> dataHook;
     //Final so it will be excluded from @AllArgsConstructor
-    private final Map<UUID, Hologram> viewers;
+    private Map<UUID, Hologram> viewers;
+
+    /**
+     * 
+     * @param loc The location the hologram will be located at
+     * @param pageLength How many items per page
+     * @param name The "pretty name" of this hologram
+     * @param dataHook The data hook that fetches the rank, caches it, etc.
+     */
+    public RankedHologram(Location loc, int pageLength, String name, Hook<T> dataHook)
+    {
+        this.loc = loc;
+        this.length = pageLength;
+        this.name = name;
+        this.dataHook = dataHook;
+    }
 
     public void update()
     {
         dataHook.updateCache().thenAccept((rankList) ->
         {
-            
+            this.viewers.forEach((uuid, holo) ->
+            {
+                holo.clearLines();
+                rankList.forEach((line) -> holo.appendTextLine(line.toString()));
+            });
         });
     }
 

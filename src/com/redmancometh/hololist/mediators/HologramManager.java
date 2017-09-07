@@ -1,9 +1,13 @@
-package com.redmancometh.hololist;
+package com.redmancometh.hololist.mediators;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+
+import com.redmancometh.hololist.HoloList;
+import com.redmancometh.hololist.RankedHologram;
+import com.redmancometh.hololist.tasks.PlayerExaminerTask;
 
 import lombok.Data;
 
@@ -11,6 +15,13 @@ import lombok.Data;
 public class HologramManager implements Iterable<RankedHologram>
 {
     private Map<String, RankedHologram> holoMap;
+    private PlayerExaminerTask task;
+
+    public void init()
+    {
+        task = new PlayerExaminerTask();
+        task.runTaskTimer(HoloList.instance(), 20, HoloList.config().getHoloCheckRate());
+    }
 
     public void addHologram(RankedHologram h)
     {

@@ -1,6 +1,8 @@
-package com.redmancometh.hololist;
+package com.redmancometh.hololist.util;
 
 import com.google.common.base.Function;
+import com.redmancometh.hololist.HoloList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitScheduler;
 

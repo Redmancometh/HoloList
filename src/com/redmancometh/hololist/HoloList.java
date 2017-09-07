@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.redmancometh.hololist.config.ConfigManager;
 import com.redmancometh.hololist.config.HoloListConfig;
+import com.redmancometh.hololist.mediators.HologramManager;
 
 public class HoloList extends JavaPlugin
 {

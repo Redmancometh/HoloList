@@ -5,7 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-import com.redmancometh.hololist.SpecialFuture;
+import com.redmancometh.hololist.util.SpecialFuture;
+
 import lombok.Data;
 
 @Data

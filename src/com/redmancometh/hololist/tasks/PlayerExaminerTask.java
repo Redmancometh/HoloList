@@ -1,4 +1,4 @@
-package com.redmancometh.hololist;
+package com.redmancometh.hololist.tasks;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -6,6 +6,9 @@ import java.util.function.Consumer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import com.redmancometh.hololist.HoloList;
+import com.redmancometh.hololist.RankedHologram;
 
 public class PlayerExaminerTask extends BukkitRunnable
 {
