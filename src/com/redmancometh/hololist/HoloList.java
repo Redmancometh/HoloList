@@ -16,9 +16,9 @@ public class HoloList extends JavaPlugin
         config.init(this);
     }
 
-    public static ConfigManager config()
+    public static HoloListConfig config()
     {
-        return instance().config;
+        return instance().config.getCurrentConfig();
     }
 
     public static HologramManager holoManager()

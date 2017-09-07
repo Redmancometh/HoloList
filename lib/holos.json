@@ -1,0 +1,8 @@
+{
+    // The rate at which the cache is updated from the data hook (usually a database or something). In seconds.
+    "holo-update-rate": 5, 
+    // This is the rate at which the hide/show based on distance checks are performed
+    "holo-check-rate": 5,
+    // This is the maximum distance^2 the hologram is visible from
+    "holo-destroy-distance": 80 
+}
