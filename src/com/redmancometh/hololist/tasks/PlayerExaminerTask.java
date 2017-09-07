@@ -31,9 +31,6 @@ public class PlayerExaminerTask extends BukkitRunnable
 
     public boolean isClose(Player p, RankedHologram holo)
     {
-        System.out.println(holo);
-        System.out.println(holo.getLoc());
-        System.out.println(holo.getLoc().getWorld());
         return holo.getLoc().distanceSquared(p.getLocation()) < HoloList.config().getHoloDestroyDistance();
     }
 

@@ -42,12 +42,13 @@ public abstract class RankedHologram<T>
         this.length = pageLength;
         this.dataHook = dataHook;
         viewers = new HashMap();
+        scheduleCacheFetch();
     }
 
     public void scheduleCacheFetch()
     {
         HoloListConfig cfg = HoloList.config();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(HoloList.instance(), () -> update(), cfg.getHoloUpdateRate(), cfg.getHoloUpdateRate());
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(HoloList.instance(), () -> update(), cfg.getHoloUpdateRate() * 20, cfg.getHoloUpdateRate() * 20);
     }
 
     public void update()
@@ -56,6 +57,7 @@ public abstract class RankedHologram<T>
         {
             this.viewers.forEach((uuid, holo) ->
             {
+                System.out.println(rankList.size() + " SIZE");
                 holo.clearLines();
                 rankList.forEach((line) -> holo.appendTextLine(line.toString()));
             });

@@ -22,7 +22,6 @@ public class HologramFactory
         try
         {
             construct = type.getDeclaredConstructor(Location.class, int.class);
-            System.out.println("IS CONST NULL? " + (construct == null));
             construct.setAccessible(true);
             constructorMap.put(name, construct);
         }
