@@ -10,4 +10,5 @@ public class HologramEntry
     private String name;
     private Location loc;
     private int pageLength;
+    private String format;
 }

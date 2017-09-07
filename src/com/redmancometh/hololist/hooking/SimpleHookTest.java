@@ -15,7 +15,6 @@ public class SimpleHookTest extends Hook<String>
             {
                 testList.add(testString + x);
             }
-            System.out.println("Returning " + testList.size());
             return testList;
         });
     }

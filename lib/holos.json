@@ -1,19 +1,20 @@
 {
     // The rate at which the cache is updated from the data hook (usually a database or something). In seconds.
-    "holo-update-rate": 5, 
+    "holo-update-rate": 20, 
     // This is the rate at which the hide/show based on distance checks are performed
-    "holo-check-rate": 5,
-    // This is the maximum distance^2 the hologram is visible from
-    "holo-destroy-distance": 80, 
+    "holo-check-rate": 10,
+    "refresh-board-rate": 10,
+    // This is the maximum distance^2 the hologram is visible from. It will be destroyed when a player exits this area.
+    "holo-destroy-distance": 500, 
     "holograms":  [
         {
             "name": "exampleranked",
             "loc": {
-                "x": 5,
-                "y": 70,
-                "z": 8
+                "x": 60,
+                "y": 82,
+                "z": 6
             },
-            "page-length": 5
+            "page-length": 6
         }
     ]
 }

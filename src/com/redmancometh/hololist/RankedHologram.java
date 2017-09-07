@@ -7,7 +7,9 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -22,20 +24,19 @@ import net.md_5.bungee.api.ChatColor;
 public abstract class RankedHologram<T>
 {
     private Location loc;
-    private int length;
+
+    private int pageLength;
     private Hook<T> dataHook;
     //Final so it will be excluded from @AllArgsConstructor
     private Map<UUID, Hologram> viewers;
     private Map<UUID, Integer> pages;
-    private String format = "&b&l[&e&l#%r %l&b&l]";
 
     /**
      * This will change from the default format.
      */
-    public void setFormat(String format)
-    {
-        this.format = format;
-    }
+    public abstract void setFormat(String format);
+
+    public abstract String getFormat();
 
     /**
      * 
@@ -51,7 +52,7 @@ public abstract class RankedHologram<T>
     public RankedHologram(Location loc, int pageLength, Hook<T> dataHook)
     {
         this.loc = loc;
-        this.length = pageLength;
+        this.pageLength = pageLength;
         this.dataHook = dataHook;
         viewers = new HashMap();
         pages = new HashMap();
@@ -68,24 +69,44 @@ public abstract class RankedHologram<T>
     public void addViewer(Player p)
     {
         UUID uuid = p.getUniqueId();
-        Hologram h = makeHolo();
+        Hologram h = makeHolo(p);
         viewers.put(p.getUniqueId(), h);
-        dataHook.getCache().forEach((item) -> System.out.println("ITEM: " + item));
+        int page = pages.getOrDefault(uuid, 1);
+        turnPage(page, h, uuid);
+    }
+
+    /**
+     * 
+     * @param page
+     * @param cache
+     * @param h This should be a specific player's individual hologram
+     */
+    public void turnPage(int page, Hologram h, UUID uuid)
+    {
         List<T> cache = dataHook.getCache();
-        int page = pages.get(uuid);
-        for (int x = 0; x < cache.size(); x++)
+        int startIndex = (page - 1) * pageLength;
+        int endIndex = Math.min((page * pageLength), cache.size());
+        h.clearLines();
+        for (int x = startIndex; x < endIndex; x++)
         {
             T line = cache.get(x);
-            h.appendTextLine(ChatColor.translateAlternateColorCodes('&', format.replace("%r", "" + x).replace("%l", line.toString())));
+            h.appendTextLine(ChatColor.translateAlternateColorCodes('&', getFormat().replace("%r", "" + x).replace("%l", line.toString())));
         }
+        attachTouchButtons(page, h, uuid);
     }
 
-    private void attachTouchButtons()
+    private void attachTouchButtons(int page, Hologram h, UUID uuid)
     {
-        
+
+        if (page > 1)
+        {
+            h.appendItemLine(new ItemStack(Material.REDSTONE)).setTouchHandler((p) -> turnPage(page - 1, h, uuid));
+        }
+        int maxPage = dataHook.getCache().size() / pageLength;
+        if (page < maxPage) h.appendItemLine(new ItemStack(Material.EMERALD)).setTouchHandler((p) -> turnPage(page + 1, h, uuid));
     }
 
-    private Hologram makeHolo()
+    private Hologram makeHolo(Player p)
     {
         Hologram h = HologramsAPI.createHologram(HoloList.instance(), loc);
         VisibilityManager visiblility = h.getVisibilityManager();
