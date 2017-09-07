@@ -1,6 +1,7 @@
 package com.redmancometh.hololist;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import com.redmancometh.hololist.config.HoloListConfig;
 import com.redmancometh.hololist.hooking.Hook;
 
 import lombok.Data;
+import net.md_5.bungee.api.ChatColor;
 
 @Data
 public abstract class RankedHologram<T>
@@ -24,6 +26,16 @@ public abstract class RankedHologram<T>
     private Hook<T> dataHook;
     //Final so it will be excluded from @AllArgsConstructor
     private Map<UUID, Hologram> viewers;
+    private Map<UUID, Integer> pages;
+    private String format = "&b&l[&e&l#%r %l&b&l]";
+
+    /**
+     * This will change from the default format.
+     */
+    public void setFormat(String format)
+    {
+        this.format = format;
+    }
 
     /**
      * 
@@ -42,39 +54,44 @@ public abstract class RankedHologram<T>
         this.length = pageLength;
         this.dataHook = dataHook;
         viewers = new HashMap();
+        pages = new HashMap();
+        dataHook.updateCache().get();
         scheduleCacheFetch();
     }
 
     public void scheduleCacheFetch()
     {
         HoloListConfig cfg = HoloList.config();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(HoloList.instance(), () -> update(), cfg.getHoloUpdateRate() * 20, cfg.getHoloUpdateRate() * 20);
-    }
-
-    public void update()
-    {
-        dataHook.updateCache().thenAccept((rankList) ->
-        {
-            this.viewers.forEach((uuid, holo) ->
-            {
-                System.out.println(rankList.size() + " SIZE");
-                holo.clearLines();
-                rankList.forEach((line) -> holo.appendTextLine(line.toString()));
-            });
-        });
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(HoloList.instance(), () -> dataHook.updateCache(), cfg.getHoloUpdateRate(), cfg.getHoloUpdateRate());
     }
 
     public void addViewer(Player p)
+    {
+        UUID uuid = p.getUniqueId();
+        Hologram h = makeHolo();
+        viewers.put(p.getUniqueId(), h);
+        dataHook.getCache().forEach((item) -> System.out.println("ITEM: " + item));
+        List<T> cache = dataHook.getCache();
+        int page = pages.get(uuid);
+        for (int x = 0; x < cache.size(); x++)
+        {
+            T line = cache.get(x);
+            h.appendTextLine(ChatColor.translateAlternateColorCodes('&', format.replace("%r", "" + x).replace("%l", line.toString())));
+        }
+    }
+
+    private void attachTouchButtons()
+    {
+        
+    }
+
+    private Hologram makeHolo()
     {
         Hologram h = HologramsAPI.createHologram(HoloList.instance(), loc);
         VisibilityManager visiblility = h.getVisibilityManager();
         visiblility.setVisibleByDefault(false);
         visiblility.showTo(p);
-        viewers.put(p.getUniqueId(), h);
-        this.dataHook.getCache().forEach((item) ->
-        {
-            h.appendTextLine(item.toString());
-        });
+        return h;
     }
 
     public void removeViewer(UUID uuid)

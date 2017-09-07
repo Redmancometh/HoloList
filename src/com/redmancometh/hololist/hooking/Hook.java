@@ -29,7 +29,13 @@ public class Hook<T>
      */
     public SpecialFuture<Collection<T>> updateCache()
     {
-        return SpecialFuture.supplyAsync(() -> cacheUpdater.get());
+        System.out.println("UPDATE CACHE");
+        return SpecialFuture.supplyAsync(() ->
+        {
+            List<T> result = cacheUpdater.get();
+            this.setCache(result);
+            return result;
+        });
     }
 
 }
