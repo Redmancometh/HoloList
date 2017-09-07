@@ -12,4 +12,9 @@ public class Hook<T>
 {
     private Supplier<Collection<T>> cacheUpdater;
 
+    public class TestHook
+    {
+
+    }
+
 }

@@ -1,10 +1,15 @@
 package com.redmancometh.hololist;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holograms.api.Hologram;
+import com.gmail.filoghost.holograms.api.HolographicDisplaysAPI;
+import com.gmail.filoghost.holographicdisplays.api.handler.TouchHandler;
 import com.redmancometh.hololist.hooking.Hook;
 
 import lombok.AllArgsConstructor;
@@ -18,11 +23,36 @@ public abstract class RankedHologram<T>
     private int length;
     private String name;
     private Hook<T> dataHook;
-    private Hologram h;
+    //Final so it will be excluded from @AllArgsConstructor
+    private final Map<UUID, Hologram> viewers;
+    private static TouchHandler prevPage = new TouchHandler();
+    private static TouchHandler nextPage = new TouchHandler();
 
     public void update()
     {
+        setCache(dataHook.getCacheUpdater().get());
+    }
 
+    public void addViewer(Player p)
+    {
+        Hologram h = HolographicDisplaysAPI.createIndividualHologram(HoloList.instance(), loc, p, "lines");
+    }
+
+    public void removeViewer(UUID uuid)
+    {
+        Hologram h = viewers.get(uuid);
+        h.delete();
+        if (h == null) throw new IllegalStateException("removeViewer was called on an");
+    }
+
+    public boolean isViewing(UUID uuid)
+    {
+        return viewers.containsKey(uuid);
+    }
+
+    public Hologram spawnHologramFor(Player p)
+    {
+        return HolographicDisplaysAPI.createIndividualHologram(HoloList.instance(), loc, p, "testing", "hologram");
     }
 
     /**
