@@ -6,6 +6,12 @@
     "refresh-board-rate": 10,
     // This is the maximum distance^2 the hologram is visible from. It will be destroyed when a player exits this area.
     "holo-destroy-distance": 500, 
+    "holo-classes": [
+        {
+            "internal-name": "exampleranked",
+            "class-name": "com.redmancometh.hololist.ExampleRankedHologram",
+        }
+    ],
     "holograms":  [
         {
             "name": "exampleranked",

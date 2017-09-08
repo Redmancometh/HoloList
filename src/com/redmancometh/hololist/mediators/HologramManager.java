@@ -2,11 +2,13 @@ package com.redmancometh.hololist.mediators;
 
 import java.util.Iterator;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.stream.Stream;
+
+import org.bukkit.Bukkit;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.redmancometh.hololist.ExampleRankedHologram;
 import com.redmancometh.hololist.HoloList;
 import com.redmancometh.hololist.RankedHologram;
 import com.redmancometh.hololist.config.HoloListConfig;
@@ -35,7 +37,24 @@ public class HologramManager implements Iterable<RankedHologram>
 
     public void registerClassTypes()
     {
-        HoloList.factory().addHologramType("exampleranked", ExampleRankedHologram.class);
+        HoloList.config().getHoloClasses().forEach((holoClass) ->
+        {
+            String className = holoClass.getClassName();
+            String internalName = holoClass.getInternalName();
+            Class holoType;
+            try
+            {
+                Bukkit.getLogger().log(Level.INFO, "\n[Holo-List] Registering type: " + internalName + "\n\tClass: " + className);
+                holoType = Class.forName(className);
+                //  Any time this type is null an exception will be thrown..I'm pretty sure.
+                HoloList.factory().addHologramType(internalName, holoType);
+            }
+            catch (ClassNotFoundException e)
+            {
+                Bukkit.getLogger().log(Level.SEVERE, "\nThe class name: " + className + " was not found loaded in the JVM!");
+                Bukkit.getLogger().log(Level.SEVERE, "\nUnable to instantiate holograms with internal name: " + internalName + "!");
+            }
+        });
     }
 
     public void addHologram(String name, RankedHologram h)

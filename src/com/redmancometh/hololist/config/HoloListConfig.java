@@ -12,4 +12,5 @@ public class HoloListConfig
     private long holoDestroyDistance;
     private long refreshBoardRate;
     private List<HologramEntry> holograms;
+    private List<HoloClass> holoClasses;
 }

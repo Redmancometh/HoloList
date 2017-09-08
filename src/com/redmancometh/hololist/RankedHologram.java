@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,7 +19,6 @@ import com.redmancometh.hololist.config.HoloListConfig;
 import com.redmancometh.hololist.hooking.Hook;
 
 import lombok.Data;
-import net.md_5.bungee.api.ChatColor;
 
 @Data
 public abstract class RankedHologram<T>
@@ -87,9 +87,11 @@ public abstract class RankedHologram<T>
         int startIndex = (page - 1) * pageLength;
         int endIndex = Math.min((page * pageLength), cache.size());
         h.clearLines();
+        h.appendTextLine(ChatColor.translateAlternateColorCodes('&', "&a&lPage: &b&l" + page));
         for (int x = startIndex; x < endIndex; x++)
         {
             T line = cache.get(x);
+            
             h.appendTextLine(ChatColor.translateAlternateColorCodes('&', getFormat().replace("%r", "" + x).replace("%l", line.toString())));
         }
         attachTouchButtons(page, h, uuid);
@@ -100,10 +102,12 @@ public abstract class RankedHologram<T>
 
         if (page > 1)
         {
+            //h.appendTextLine("<--- Previous").setTouchHandler((p) -> turnPage(page + 1, h, uuid));
             h.appendItemLine(new ItemStack(Material.REDSTONE)).setTouchHandler((p) -> turnPage(page - 1, h, uuid));
         }
         int maxPage = dataHook.getCache().size() / pageLength;
-        if (page < maxPage) h.appendItemLine(new ItemStack(Material.EMERALD)).setTouchHandler((p) -> turnPage(page + 1, h, uuid));
+        if (page < maxPage) //h.appendTextLine("Next --->").setTouchHandler((p) -> turnPage(page + 1, h, uuid));
+            h.appendItemLine(new ItemStack(Material.EMERALD)).setTouchHandler((p) -> turnPage(page + 1, h, uuid));
     }
 
     private Hologram makeHolo(Player p)

@@ -45,4 +45,9 @@ public class HologramFactory
         }
         return null;
     }
+    
+    public static void customHologram()
+    {
+        
+    }
 }
