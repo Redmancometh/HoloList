@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>HoloList</groupId>
-	<artifactId>HoloList</artifactId>
+	<groupId>TileLevels</groupId>
+	<artifactId>TileLevels</artifactId>
 	<version>1.0</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -14,13 +14,22 @@
 					<outputDirectory>${user.home}/arkdev/plugins</outputDirectory>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
 		</plugins>
 		<resources>
 			<resource>
 				<directory>lib</directory>
 				<includes>
 					<include>plugin.yml</include>
-					<include>holos.json</include>
+					<include>tiles.json</include>
 				</includes>
 			</resource>
 		</resources>
@@ -33,6 +42,21 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+			<groupId>com.redmancometh</groupId>
+			<artifactId>RedCore</artifactId>
+			<version>2.02</version>
+		</dependency>
+		<dependency>
+			<groupId>com.redmancometh</groupId>
+			<artifactId>RedMenus</artifactId>
+			<version>1.8.8</version>
+		</dependency>
+		<dependency>
+			<groupId>co.64</groupId>
+			<artifactId>QuantumTile</artifactId>
+			<version>1.8</version>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.14.4</version>
@@ -41,6 +65,11 @@
 			<groupId>com.filoghost</groupId>
 			<artifactId>HolographicDisplays</artifactId>
 			<version>1.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.redmancometh</groupId>
+			<artifactId>AstralOrbs</artifactId>
+			<version>1.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.arkhamnetwork</groupId>

@@ -1,3 +1,4 @@
-name: HoloList
-main: com.redmancometh.hololist.HoloList
+name: Tiles
+main: com.redmancometh.tilelevels.Tiles
 version: 1.0
+depend: [RedMenus]

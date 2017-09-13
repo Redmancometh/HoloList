@@ -1,0 +1,92 @@
+{
+    "messages": {
+        "prefix": "&e&l[&b&lUpgrades&e&]",
+        "not-enough-orbs": "&4Not enough orbs!",
+        "upgraded-successfully": "&2&lUpgraded Successfully!",
+        "not-enough-inv-space": "Not enough room!"
+    },
+    "upgrade-menu-template": {
+        "panes": [
+            {
+                "color": 3, // Corresponds to the glass pane color
+                "indexes": [0,1,7,8,9,17,18,26,27,32,35,36,44,45,46,52,53]
+            },
+            {
+                "color": 5,
+                "indexes": [2,3,4,5,6,10,11,12,14,15,16,19,20,21,22,23,24,25,28,34,37,38,39,40,41,42,43,47,48,49,50,51]
+            }
+        ]
+    },
+    "upgrade-menu-title": "&2Upgrades",
+    "status-icon": {
+        "slot": 13,
+        "display-name": "Current Status",
+        "lore": [
+            "Current Tier: %cl"
+        ],
+        "material": "emerald"               
+    },
+    "upgrade-one-icon": {
+        "slot": 29,
+        "display-name": "&6&lUpgrade One Level",
+        "lore": [
+            "&6&l[&b&lClick to Upgrade&6&l]",
+            "Upgrade 1 Level For %c1"
+        ],
+        "material": "gold ingot"               
+    },
+    "upgrade-five-icon": {
+        "slot": 30,
+        "display-name": "&6&lUpgrade Five Levels",
+        "lore": [
+            "&6&l[&b&lClick to Upgrade&6&l]",
+            "Upgrades 5 Levels",
+            "This will cost %c5"
+        ],
+        "material": "diamond"               
+    },
+    "upgrade-full-icon": {
+        "slot": 31,
+        "display-name": "&6&lUpgrade To Max",
+        "lore": [
+            "&6&l[&b&lClick to Upgrade&6&l]",
+            "Upgrade To Level %lmax for %cmax"
+        ],
+        "material": "emerald"               
+    },
+    "break-icon": {
+        "slot": 33,
+        "display-name": "&2&lBreak This",
+        "lore": [
+            "&6&l[&b&lClick to Break&6&l]",
+            ""
+        ],
+        "material": "barrier"               
+    },
+    "upgrade-configs": [
+        
+    ],
+    "tier-configs": [
+        {
+            "tier-class": "co.q64.tile.nms.tiles.CustomFurnace",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "cost": 500
+                },
+                {
+                    "tier": 2,
+                    "cost": 1000
+                },
+                {
+                    "tier": 3,
+                    "cost": 5000
+                },
+                {
+                    "tier": 4,
+                    "cost": 10000
+                }
+            ]
+        }
+    ]
+}
